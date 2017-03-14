@@ -10,12 +10,15 @@ N_Channel=8;
 f=1e3;
 
 cd 'DataSave'
-load TestData
+load POR_pmm
+load U_pmm
+load CaliTable_pmm_a
 % load coord_shift_VOI_optiPose
+
 cd ..
 
-POR=POR; %#ok<*ASGSL>
-U1=U_Measured;
+POR=POR_pmm; %#ok<*ASGSL>
+U1=U_pmm;
 omega=2*pi*f;
 
 
@@ -48,8 +51,12 @@ zeit=0.5;                               % Zeitbegrenzung für fsolve (time limita
 max_abstand=2;
 m=zeros(Anz_Spulen,3);
 % r=zeros(Anz_Spulen,3);
-faktor= [1 1 1 1 1 1 1 1]';            % (factor for calibration calculation)
 
+% %% No cali
+% faktor= [1 1 1 1 1 1 1 1]';            % (factor for calibration calculation)
+
+%% Cali
+faktor= [1+koord_alle_alle(1,1)/100 1+koord_alle_alle(2,1)/100 1+koord_alle_alle(3,1)/100 1+koord_alle_alle(4,1)/100 1+koord_alle_alle(5,1)/100 1+koord_alle_alle(6,1)/100 1+koord_alle_alle(7,1)/100 1+koord_alle_alle(8,1)/100]';   
 
 %% 1P1O
 % oo_ = [1 0 0;...
@@ -70,6 +77,8 @@ oo_ = [1 0 0;...
     1 100 150;...
     1 120 180;...
     1 140 210];
+%% Cali
+oo_ = oo_ + [ones(8,1), koord_alle_alle(:,2:3)/5];
 
 % VOI
 % 
@@ -106,6 +115,9 @@ r_ = [-0.06 0.05 0;...
      -0.02 -0.05 0;...
       0.02 -0.05 0;...
       0.06 -0.05 0];
+
+%% Cali
+r_ = r_ - koord_alle_alle(:,4:6)/1000;
   
 %% VOI
 % r_ =[-0.28  -0.28 0.58;...

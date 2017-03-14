@@ -11,7 +11,7 @@ options=optimset('Algorithm','trust-region-reflective','TolFun',1e-12,'MaxFunEva
 % options=optimset('Algorithm','levenberg-marquardt','TolFun',1e-12,'MaxFunEvals',20000,'MaxIter',20000,'Display','off');   % Option to display output
 
 clk=clock;
-for j=1:100
+for j=1:10
     [koord,fval,exitflag,output] = fsolve(@GLS,koord_start,options);  % Call optimizer
     C_=clock;
     

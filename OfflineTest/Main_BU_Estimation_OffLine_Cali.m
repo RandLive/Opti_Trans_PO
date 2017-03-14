@@ -3,15 +3,17 @@ clear;clc;
 global mu0 mur_sende mur_empfang R_sende N_sende Ia varTotalNum 
 
 cd 'DataSave'
-load coord_shift_VOI_optiPose
+load coord_shift_cali
 cd ..
+
+coord_shift = coord_shift_Cali_pmm;
 %% Add noise
 U_g = 1;
 f = 1000; %signal frequency of sine-wave excitation signal
 flag = 0; % sine-wave excitation
 
 %% noise level
-nl = -Inf;
+nl = -100;
 
 %% Relevent Constants
 mu0=4*pi*10^-7;			% Permeability of vacumm
@@ -105,11 +107,12 @@ oo_ = [1 0 0;...
 %     0.3  -0.3 0.6;...
 %     0.3  -0.3 0.0];
 
+
 %% with or without shift
-% r=r_+coord_shift(:,4:6);
-r=r_;
-% oo = oo_+coord_shift(:,1:3);
-oo=oo_;
+r=r_+coord_shift(:,4:6);
+% r=r_;
+oo = oo_+coord_shift(:,1:3);
+% oo=oo_;
 
 rs = zeros(varTotalNum,3);
 os = zeros(varTotalNum,3);
